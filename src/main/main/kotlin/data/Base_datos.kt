@@ -4,7 +4,7 @@ import es.prog2425.calclog.model.User
 import java.sql.*
 
 object DatabaseConfig {
-    const val DB_URL = "jdbc:h2:./data/dbtest"
+    const val DB_URL = "jdbc:h2:./data/calculadora"
     const val USER = "sa"
     const val PASS = ""
 
