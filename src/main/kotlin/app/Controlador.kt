@@ -1,9 +1,11 @@
 package es.prog2425.calclog.app
 
+import es.prog2425.calclog.data.DatabaseConfig
 import es.prog2425.calclog.model.Operador
 import es.prog2425.calclog.service.ServicioCalc
 import es.prog2425.calclog.service.IServicioLog
 import es.prog2425.calclog.ui.IEntradaSalida
+import java.sql.SQLException
 
 /**
  * Controlador principal de la aplicación que gestiona el flujo de ejecución y coordina
@@ -115,8 +117,27 @@ class Controlador(
      * Registra el resultado en el log.
      */
     private fun realizarCalculo(num1: Double, operador: Operador, num2: Double) {
-        val calculo = calculadora.realizarCalculo(num1, operador, num2)
-        ui.mostrar(calculo.toString())
-        gestorLog.registrarEntradaLog(calculo)
+        try {
+            val calculo = calculadora.realizarCalculo(num1, operador, num2)
+            ui.mostrar(calculo.toString())
+            gestorLog.registrarEntradaLog(calculo)
+
+            DatabaseConfig.getConnection().use { conn ->
+                conn.prepareStatement("""
+                    INSERT INTO operaciones (numero1, numero2, operador, resultado)
+                    VALUES (?, ?, ?, ?)
+                """).use { stmt ->
+                    stmt.setDouble(1, num1)
+                    stmt.setDouble(2, num2)
+                    stmt.setString(3, operador.name)
+                    stmt.setDouble(4, calculo.resultado)
+                    stmt.executeUpdate()
+                }
+            }
+        } catch (e: SQLException) {
+            ui.mostrarError("Error al intentar guardar: ${e.message}")
+        }
     }
+
+
 }

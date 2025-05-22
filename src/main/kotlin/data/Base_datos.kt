@@ -24,14 +24,6 @@ object DatabaseConfig {
                         fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                     )
                 """)
-
-                stmt.executeUpdate("""
-                    CREATE TABLE IF NOT EXISTS logs (
-                        id INT AUTO_INCREMENT PRIMARY KEY,
-                        mensaje VARCHAR(500) NOT NULL,
-                        fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-                    )
-                """)
             }
         }
     }
