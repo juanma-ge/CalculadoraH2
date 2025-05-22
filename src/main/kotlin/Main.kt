@@ -1,8 +1,7 @@
 package org.example
 
 import es.prog2425.calclog.app.Controlador
-import es.prog2425.calclog.data.DatabaseConfig.eliminarTabla
-import es.prog2425.calclog.data.DatabaseConfig.initDatabase
+import es.prog2425.calclog.data.DatabaseConfig
 import es.prog2425.calclog.data.RepoLogTxt
 import es.prog2425.calclog.service.ServicioCalc
 import es.prog2425.calclog.service.ServicioLog
@@ -16,6 +15,8 @@ import es.prog2425.calclog.utils.GestorFichTxt
  * y delega el control al controlador principal de la aplicación.
  */
 fun main(args: Array<String>) {
+
+    DatabaseConfig.initDatabase()
 
     val repoLog = RepoLogTxt(GestorFichTxt())
     Controlador(Consola(), ServicioCalc(), ServicioLog(repoLog)).iniciar(args)
