@@ -13,15 +13,35 @@ object DatabaseConfig {
 
     fun initDatabase() {
         getConnection().use { conn ->
-            val stmt = conn.createStatement()
-            stmt.executeUpdate(
-                """CREATE TABLE IF NOT EXISTS users (
-                id INT AUTO_INCREMENT PRIMARY KEY,
-                name VARCHAR(255),
-                email VARCHAR(255)
-            )"""
-            )
-            stmt.close()
+            conn.createStatement().use { stmt ->
+                stmt.executeUpdate("""
+                    CREATE TABLE IF NOT EXISTS operaciones (
+                        id INT AUTO_INCREMENT PRIMARY KEY,
+                        numero1 DOUBLE NOT NULL,
+                        numero2 DOUBLE NOT NULL,
+                        operador VARCHAR(5) NOT NULL,
+                        resultado DOUBLE NOT NULL,
+                        fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                    )
+                """)
+
+                stmt.executeUpdate("""
+                    CREATE TABLE IF NOT EXISTS logs (
+                        id INT AUTO_INCREMENT PRIMARY KEY,
+                        mensaje VARCHAR(500) NOT NULL,
+                        fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                    )
+                """)
+            }
+        }
+    }
+
+    fun eliminarTabla() {
+        getConnection().use { conn ->
+            conn.createStatement().use { stmt ->
+                stmt.executeUpdate("DROP TABLE IF EXISTS users")
+                println("Tabla eliminada correctamente")
+            }
         }
     }
 

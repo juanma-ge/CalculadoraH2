@@ -1,6 +1,7 @@
 package org.example
 
 import es.prog2425.calclog.app.Controlador
+import es.prog2425.calclog.data.DatabaseConfig.eliminarTabla
 import es.prog2425.calclog.data.DatabaseConfig.initDatabase
 import es.prog2425.calclog.data.RepoLogTxt
 import es.prog2425.calclog.service.ServicioCalc
@@ -18,8 +19,6 @@ fun main(args: Array<String>) {
 
     val repoLog = RepoLogTxt(GestorFichTxt())
     Controlador(Consola(), ServicioCalc(), ServicioLog(repoLog)).iniciar(args)
-
-    initDatabase()
 
     /*
     O también instanciando en variables locales... es lo mismo al fin y al cabo.
