@@ -8,9 +8,16 @@ object DatabaseConfig {
     const val USER = "sa"
     const val PASS = ""
 
+    /**
+     * Se concecta a la base de datos H2.
+     * Utiliza las variables 'DB_URL', 'USER' y 'PASS'.
+     */
     fun getConnection(): Connection =
         DriverManager.getConnection(DB_URL, USER, PASS)
 
+    /**
+     * Inicia la base de datos creando la tabla 'operaciones'.
+     */
     fun initDatabase() {
         getConnection().use { conn ->
             conn.createStatement().use { stmt ->
@@ -29,6 +36,10 @@ object DatabaseConfig {
         }
     }
 
+    /**
+     * Elimina una tabla previa, la cual era un error.
+     * Puede ser utilizada para eliminar cualquier tabla que se desee.
+     */
     fun eliminarTabla() {
         getConnection().use { conn ->
             conn.createStatement().use { stmt ->
