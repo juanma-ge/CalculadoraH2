@@ -14,12 +14,13 @@ object DatabaseConfig {
     fun initDatabase() {
         getConnection().use { conn ->
             conn.createStatement().use { stmt ->
+                stmt.executeUpdate("DROP TABLE IF EXISTS operaciones")
                 stmt.executeUpdate("""
                     CREATE TABLE IF NOT EXISTS operaciones (
                         id INT AUTO_INCREMENT PRIMARY KEY,
                         numero1 DOUBLE NOT NULL,
                         numero2 DOUBLE NOT NULL,
-                        operador VARCHAR(5) NOT NULL,
+                        operador VARCHAR(20) NOT NULL,
                         resultado DOUBLE NOT NULL,
                         fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                     )
